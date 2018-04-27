@@ -1,0 +1,27 @@
+.users-section {
+    margin-bottom: 30px;
+    .users {
+        display: flex;
+        justify-content: space-between;
+        .example-full-width {
+            // width: 100%;
+        }
+    }
+}
+.action-btn {
+    button {
+        outline: none;
+    }
+}
+@media screen and (max-width: 467px) {
+    .users-section {
+        .users {
+            flex-direction: column;
+        }
+    }
+    .users-section.list {
+        .users {
+            flex-direction: row;
+        }
+    }
+}
