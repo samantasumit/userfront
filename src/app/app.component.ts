@@ -17,6 +17,8 @@ export class AppComponent {
     public users = [];
     public userForm: FormGroup;
     public findUserForm: FormGroup;
+    public nameControl: AbstractControl;
+    public ageControl: AbstractControl;
     public searchInputControl: AbstractControl;
 
     constructor(private apiService: ApiService,
@@ -30,6 +32,8 @@ export class AppComponent {
             // searchInput: ['', Validators.required]
             searchInput: ['']
         });
+        this.nameControl = this.userForm.controls['name'];
+        this.ageControl = this.userForm.controls['age'];
         this.searchInputControl = this.findUserForm.controls['searchInput'];
     }
 
@@ -87,6 +91,8 @@ export class AppComponent {
         };
         this.apiService.addUser(user)
             .subscribe((response: any) => {
+                // this.nameControl.reset();
+                // this.ageControl.reset();
                 this.getUsers();
             }, (error) => {
                 console.log(error);
