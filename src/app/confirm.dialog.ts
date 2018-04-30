@@ -13,7 +13,7 @@ export class ConfirmDialog {
 
     constructor(private apiService: ApiService,
         private dialogRef: MatDialogRef<ConfirmDialog>,
-        @Inject(MAT_DIALOG_DATA) private user: any) {
+        @Inject(MAT_DIALOG_DATA) public user: any) {
     }
 
     onNoClick() {
