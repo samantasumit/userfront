@@ -6,6 +6,16 @@
         .example-full-width {
             // width: 100%;
         }
+        .age {
+            display: flex;
+            .icon {
+                margin-left: 30px;
+                cursor: pointer;
+            }
+        }
+    }
+    .no-users {
+        text-align: left;
     }
 }
 .action-btn {
