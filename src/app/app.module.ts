@@ -7,10 +7,16 @@ import { AppComponent } from './app.component';
 import { ApiService } from './api.service'
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatDialogModule } from '@angular/material/dialog';
+import { ConfirmDialog } from './confirm.dialog'
+import 'rxjs/add/operator/debounceTime';
 
 @NgModule({
     declarations: [
-        AppComponent
+        AppComponent,
+        ConfirmDialog
     ],
     imports: [
         BrowserModule,
@@ -18,10 +24,16 @@ import { MatInputModule } from '@angular/material/input';
         HttpClientModule,
         ReactiveFormsModule,
         MatButtonModule,
-        MatInputModule
+        MatInputModule,
+        MatIconModule,
+        MatTooltipModule,
+        MatDialogModule
     ],
     providers: [
         ApiService
+    ],
+    entryComponents: [
+        ConfirmDialog
     ],
     bootstrap: [AppComponent]
 })
