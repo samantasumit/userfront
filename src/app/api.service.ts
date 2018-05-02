@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { HttpHeaders } from '@angular/common/http';
+import { LoaderService } from './loader.service';
 import { User } from './user.interface';
 import { ENV } from './app.config'
 
@@ -13,7 +14,8 @@ const httpOptions = {
 @Injectable()
 export class ApiService {
 
-    constructor(private http: HttpClient) {
+    constructor(private http: HttpClient,
+    private loaderService: LoaderService) {
 
     }
 
