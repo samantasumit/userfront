@@ -2,8 +2,9 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs/Subscription';
-import { ApiService } from './api.service'
-import { ConfirmDialog } from './confirm.dialog'
+import { ApiService } from './api.service';
+import { LoaderService } from './loader.service';
+import { ConfirmDialog } from './confirm.dialog';
 
 @Component({
     selector: 'app-root',
@@ -22,6 +23,7 @@ export class AppComponent {
     public searchInputControl: AbstractControl;
 
     constructor(private apiService: ApiService,
+        private loaderService: LoaderService,
         private fb: FormBuilder,
         private dialog: MatDialog) {
         this.userForm = this.fb.group({
@@ -46,25 +48,13 @@ export class AppComponent {
     }
 
     getUsers() {
+        this.loaderService.showLoader();
         this.apiService.getUsers()
             .subscribe((response: any) => {
+                this.loaderService.hideLoader();
                 this.users = response.users;
             }, (error) => {
-                console.log(error);
-            });
-    }
-
-    findUser() {
-        if (this.findUserForm.invalid) {
-            return;
-        }
-        let user = {
-            searchInput: this.findUserForm.get('searchInput').value,
-        };
-        this.apiService.findUser(user)
-            .subscribe((response: any) => {
-                this.users = response.users;
-            }, (error) => {
+                this.loaderService.hideLoader();
                 console.log(error);
             });
     }
@@ -73,10 +63,13 @@ export class AppComponent {
         let user = {
             searchInput: this.findUserForm.get('searchInput').value,
         };
+        // this.loaderService.showLoader();
         this.apiService.findUser(user)
             .subscribe((response: any) => {
+                this.loaderService.hideLoader();
                 this.users = response.users;
             }, (error) => {
+                this.loaderService.hideLoader();
                 console.log(error);
             });
     }
@@ -89,12 +82,15 @@ export class AppComponent {
             name: this.userForm.get('name').value,
             age: this.userForm.get('age').value
         };
+        this.loaderService.showLoader();
         this.apiService.addUser(user)
             .subscribe((response: any) => {
                 // this.nameControl.reset();
                 // this.ageControl.reset();
+                this.loaderService.hideLoader();
                 this.getUsers();
             }, (error) => {
+                this.loaderService.hideLoader();
                 console.log(error);
             });
     }
