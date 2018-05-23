@@ -40,6 +40,7 @@ export class AppComponent {
     }
 
     ngOnInit() {
+        this.apiService.getSocket();
         this.getUsers();
         this.searchInputControl.valueChanges.debounceTime(300)
             .subscribe((response) => {

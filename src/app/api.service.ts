@@ -3,7 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { HttpHeaders } from '@angular/common/http';
 import { LoaderService } from './loader.service';
 import { User } from './user.interface';
-import { ENV } from './app.config'
+import { ENV } from './app.config';
+import * as io from 'socket.io-client';
 
 const httpOptions = {
     headers: new HttpHeaders({
@@ -11,12 +12,25 @@ const httpOptions = {
     })
 };
 
+
+
 @Injectable()
 export class ApiService {
 
+    public socket;
+
     constructor(private http: HttpClient,
     private loaderService: LoaderService) {
+        
+    }
 
+    getSocket() {
+        this.socket = io(ENV.apiUrl);
+        this.socket.emit('connection', { hello: 'connection estb' });
+        this.socket.on('news', function (data) {
+            console.log(data);
+        });
+        return this.socket;
     }
 
     getUsers() {
