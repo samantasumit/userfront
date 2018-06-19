@@ -1,18 +1,40 @@
-<FORM METHOD="post" ACTION="https://sbcheckout.payfort.com/FortAPI/paymentPage" id=form1 name=form1>
+<html>
 
-    <INPUT type="hidden" NAME="service_command" value="TOKENIZATION">
-    <INPUT type="hidden" NAME="language" value="en">
-    <INPUT type="hidden" NAME="merchant_identifier" value="eXpswDIR">
-    <INPUT type="hidden" NAME="access_code" value="MTxyXt5kSJZH0e7S7EWL">
-    <INPUT type="hidden" NAME="merchant_reference" value="XYZ9239-yu898">
-    <INPUT type="hidden" NAME="card_number" value="4005550000000001">
-    <INPUT type="hidden" NAME="expiry_date" value="2105">
-    <INPUT type="hidden" NAME="card_holder_name" value="ee">
-    <INPUT type="hidden" NAME="card_security_code" value="123">
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.5/angular.min.js"></script>
+</head>
 
-    <INPUT type="hidden" NAME="signature" value="04380bd882b5bd250e3669bd1174402d8170e66ac8ace760cac2670532590cba">
+<body ng-app="myApp" ng-controller="myCtrl">
+    <div style="width: 100%; height: 100%; display: flex">
+        <div style="margin: auto">
+            <h5 ng-repeat="entry in enteries track by $index">
+                <span id="key">
+                    {{ entry.key }}:
+                </span>
+                <span id="value">
+                    {{ entry.value }}
+                </span>
+            </h5>
+        </div>
+    </div>
+</body>
 
-    <input type="submit" value="pay" id="submit2" name="">
+<script>
+    var app = angular.module('myApp', []);
+    app.controller('myCtrl', ['$scope', '$http', function ($scope, $http) {
+        var urlParams = new URLSearchParams(window.location.search);
+        var keys = urlParams.keys();
+        var entries = urlParams.entries();
+        $scope.enteries = [];
+        for (pair of entries) {
+            var response = {
+                key: pair[0],
+                value: pair[1]
+            };
+            $scope.enteries.push(response);
+        }
+    }]);
+</script>
 
-
-</form>
+</html>
