@@ -13,6 +13,8 @@ import { ConfirmDialog } from './confirm.dialog';
 })
 export class AppComponent {
 
+    public socket;
+    public socket2;
     public title = 'User App';
     public dialogSubscrition: Subscription;
     public users = [];
@@ -40,7 +42,8 @@ export class AppComponent {
     }
 
     ngOnInit() {
-        this.apiService.getSocket();
+        this.socket = this.apiService.getSocket();
+        this.socket2 = this.apiService.getSocket2();
         this.getUsers();
         this.searchInputControl.valueChanges.debounceTime(300)
             .subscribe((response) => {
@@ -76,6 +79,7 @@ export class AppComponent {
     }
 
     addUser() {
+        this.socket.emit('connection', { user: 'User 1' });
         if (this.userForm.invalid) {
             return;
         }
