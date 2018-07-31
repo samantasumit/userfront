@@ -63,8 +63,10 @@ export class AppComponent {
         this.socket = this.apiService.getSocket();
         if (this.socket) {
             this.getMessages(this.socket, 'news').subscribe((data) => {
-                console.log(data);
-                this.messages.push(data.message);
+                this.messages.push(data);
+                if(this.messages.length > 2) {
+                    this.messages.splice(0, this.messages.length - 2);
+                }
             });
         }
         this.getUsers();
