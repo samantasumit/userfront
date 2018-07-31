@@ -26,7 +26,7 @@ export class ApiService {
     }
 
     getSocket() {
-        this.socket = io(ENV.apiUrl);
+        this.socket = io(ENV.apiUrl + '/chat');
         return this.socket;
     }
 
