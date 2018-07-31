@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { ApiService } from './api.service';
 import { LoaderService } from './loader.service';
 import { ConfirmDialog } from './confirm.dialog';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
     selector: 'app-root',
@@ -14,12 +15,13 @@ import { ConfirmDialog } from './confirm.dialog';
 export class AppComponent {
 
     public socket;
-    public socket2;
     public title = 'User App';
+    public messages = [];
     public dialogSubscrition: Subscription;
     public users = [];
     public userForm: FormGroup;
     public findUserForm: FormGroup;
+    public messageInput;
     public nameControl: AbstractControl;
     public ageControl: AbstractControl;
     public searchInputControl: AbstractControl;
@@ -41,9 +43,30 @@ export class AppComponent {
         this.searchInputControl = this.findUserForm.controls['searchInput'];
     }
 
+    sendMessage(message) {
+        if (this.socket) {
+            this.socket.emit('send', message);
+            this.messageInput = '';
+        }
+    }
+
+    getMessages(socket, event): Observable<any> {
+        let observable = new Observable(observer => {
+            socket.on(event, (data) => {
+                observer.next(data);
+            });
+        });
+        return observable;
+    }
+
     ngOnInit() {
         this.socket = this.apiService.getSocket();
-        this.socket2 = this.apiService.getSocket2();
+        if (this.socket) {
+            this.getMessages(this.socket, 'news').subscribe((data) => {
+                console.log(data);
+                this.messages.push(data.message);
+            });
+        }
         this.getUsers();
         this.searchInputControl.valueChanges.debounceTime(300)
             .subscribe((response) => {
